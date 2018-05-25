@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import logo from "./logo.svg";
 import "./App.css";
 
-import ToDos from "./components/ToDos";
-import AddToDo from "./components/AddToDo";
+import AuthenticatedRoute from "./modules/auth/components/AuthenticatedRoute";
+import Logout from "./modules/auth/components/Logout";
+import ToDoPage from "./pages/ToDo";
+import LoginPage from "./pages/Login";
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +18,8 @@ class App extends Component {
         { title: "Äta pizza!", done: false, id: "a" },
         { title: "Städa efter pizza.", done: false, id: "b" },
         { title: "Intro to React.", done: true, id: "c" }
-      ]
+      ],
+      user: { token: undefined }
     };
   }
 
@@ -30,16 +35,46 @@ class App extends Component {
     this.setState({ items: [...this.state.items, todo] });
   };
 
+  loginSuccess = token => {
+    this.setState({ user: { token } });
+  };
+
+  logout = () => {
+    this.setState({ user: { token: undefined } });
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to ToDO in React</h1>
-        </header>
-        <ToDos toggle={this.toggleToDo} items={this.state.items} />
-        <AddToDo addToDo={this.addToDo} />
-      </div>
+      <Router>
+        <div className="App">
+          <header className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">Welcome to ToDO in React</h1>
+          </header>
+          <Logout logout={this.logout} token={this.state.user.token} />
+          <AuthenticatedRoute
+            exact
+            path="/"
+            token={this.state.user.token}
+            render={() => (
+              <ToDoPage
+                toggle={this.toggleToDo}
+                items={this.state.items}
+                addToDo={this.addToDo}
+              />
+            )}
+          />
+          <Route
+            path="/login"
+            render={() => (
+              <LoginPage
+                token={this.state.user.token}
+                loginSuccess={this.loginSuccess}
+              />
+            )}
+          />
+        </div>
+      </Router>
     );
   }
 }
