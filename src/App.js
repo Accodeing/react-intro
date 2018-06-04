@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -45,36 +45,34 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to ToDO in React</h1>
-          </header>
-          <Logout logout={this.logout} token={this.state.user.token} />
-          <AuthenticatedRoute
-            exact
-            path="/"
-            token={this.state.user.token}
-            render={() => (
-              <ToDoPage
-                toggle={this.toggleToDo}
-                items={this.state.items}
-                addToDo={this.addToDo}
-              />
-            )}
-          />
-          <Route
-            path="/login"
-            render={() => (
-              <LoginPage
-                token={this.state.user.token}
-                loginSuccess={this.loginSuccess}
-              />
-            )}
-          />
-        </div>
-      </Router>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to ToDO in React</h1>
+        </header>
+        <Logout logout={this.logout} token={this.state.user.token} />
+        <AuthenticatedRoute
+          exact
+          path="/"
+          token={this.state.user.token}
+          render={() => (
+            <ToDoPage
+              toggle={this.toggleToDo}
+              items={this.state.items}
+              addToDo={this.addToDo}
+            />
+          )}
+        />
+        <Route
+          path="/login"
+          render={() => (
+            <LoginPage
+              token={this.state.user.token}
+              loginSuccess={this.loginSuccess}
+            />
+          )}
+        />
+      </div>
     );
   }
 }
