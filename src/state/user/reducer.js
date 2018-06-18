@@ -4,12 +4,17 @@ import {
   saveToSessionStorage,
   loadFromSessionStorage,
   removeFromSessionStorage,
-  TOKEN
+  USER
 } from "../sessionStorage.js";
 
 const initialState = {
-  processing: false,
-  token: loadFromSessionStorage(TOKEN)
+  id: null,
+  name: null,
+  year: null,
+  color: null,
+  pantone_value: null,
+  loading: false,
+  ...loadFromSessionStorage(USER)
 };
 
 export default (state = initialState, action) => {
@@ -17,35 +22,30 @@ export default (state = initialState, action) => {
     case types.REQUESTING:
       return {
         ...state,
-        processing: true
+        loading: true
       };
 
-    case types.SUCCESS:
-      saveToSessionStorage(TOKEN, action.token);
+    case types.SUCCESSFUL:
+      saveToSessionStorage(USER, action.user);
       return {
         ...state,
-        processing: false,
-        token: action.token
+        ...action.user,
+        loading: false
       };
 
     case types.FAILED:
       return {
-        ...state,
-        processing: false
+        ...initialState
       };
 
     case types.ERROR:
       return {
-        ...state,
-        processing: false
+        ...initialState
       };
 
     case globalTypes.LOGOUT:
-      removeFromSessionStorage(TOKEN);
-      return {
-        ...state,
-        token: null
-      };
+      removeFromSessionStorage(USER);
+      return state;
 
     default:
       return state;

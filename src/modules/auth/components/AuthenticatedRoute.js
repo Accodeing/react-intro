@@ -1,10 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-
-import { login } from "../../../state/session/actions.js";
 
 const AuthenticatedRoute = props => {
   const Component = props.token ? Route : Redirect;
@@ -14,15 +11,7 @@ const AuthenticatedRoute = props => {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  token: state.session.token
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      login
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(AuthenticatedRoute);
+export default connect(mapStateToProps)(AuthenticatedRoute);

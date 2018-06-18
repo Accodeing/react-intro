@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { logout } from "../../../state/session/actions.js";
+
 const StyledButton = styled.button`
   margin: 15px 0;
   width: 100%;
@@ -17,4 +22,16 @@ const Logout = props => {
   return <StyledButton onClick={props.logout}>Logga ut</StyledButton>;
 };
 
-export default Logout;
+const mapStateToProps = state => ({
+  token: state.session.token
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      logout
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

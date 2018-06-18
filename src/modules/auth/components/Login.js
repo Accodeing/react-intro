@@ -1,7 +1,11 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
+
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+import { login } from "../../../state/session/actions.js";
 
 const Panel = styled.div`
   display: flex;
@@ -61,15 +65,7 @@ class Login extends React.Component {
   onSubmit = event => {
     this.setState({ loading: true, error: null });
     event.preventDefault();
-    axios.post("https://reqres.in/api/login", this.state.formData).then(
-      response => {
-        this.setState({ loading: false });
-        this.props.loginSuccess(response.data.token);
-      },
-      error => {
-        this.setState({ loading: false, error: error.response });
-      }
-    );
+    this.props.login(this.state.formData.email, this.state.formData.password);
     this.form.reset();
   };
 
@@ -110,4 +106,12 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      login
+    },
+    dispatch
+  );
+
+export default connect(null, mapDispatchToProps)(Login);

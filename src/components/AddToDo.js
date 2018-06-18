@@ -4,7 +4,7 @@ class AddToDo extends Component {
   create = event => {
     event.preventDefault();
 
-    this.props.addToDo({
+    this.props.add({
       title: this.el.value,
       done: false,
       id: Math.random(12)

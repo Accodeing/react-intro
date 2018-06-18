@@ -1,5 +1,7 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
 import LoginComponent from "../modules/auth/components/Login";
 
 const Login = props => (
@@ -8,4 +10,8 @@ const Login = props => (
   </main>
 );
 
-export default Login;
+const mapStateToProps = state => ({
+  token: state.session.token
+});
+
+export default connect(mapStateToProps)(Login);
