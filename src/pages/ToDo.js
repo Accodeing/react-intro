@@ -3,18 +3,18 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { toggle, add } from "../state/todo/actions.js";
+import { toggle, add } from "../modules/todo/actions.js";
 
 import ToDos from "../components/ToDos";
 import AddToDo from "../components/AddToDo";
 
 const ToDo = props => (
-  <main>
+  <React.Fragment>
     <ToDos toggle={props.toggle} items={props.items} />
     <AddToDo add={props.add} />
     {props.user.loading && <p>User is loading</p>}
     {!props.user.loading && <p>{props.user.name}</p>}
-  </main>
+  </React.Fragment>
 );
 
 const mapStateToProps = state => ({

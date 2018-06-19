@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { logout } from "../../../state/session/actions.js";
+import { logout } from "../../../modules/session/actions.js";
 
 const StyledButton = styled.button`
   margin: 15px 0;

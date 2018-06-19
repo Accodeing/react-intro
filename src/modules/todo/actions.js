@@ -6,8 +6,14 @@ export const toggle = index => {
   };
 };
 
-export const add = todo => {
+export const add = title => {
   return dispatch => {
-    dispatch(actionCreators.add(todo));
+    dispatch(
+      actionCreators.add({
+        title,
+        done: false,
+        id: Math.floor(Math.random() * Math.floor(10000)).toString()
+      })
+    );
   };
 };

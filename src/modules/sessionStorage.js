@@ -1,5 +1,5 @@
-export const TOKEN = 'auth/login/token';
-export const USER = 'auth/login/user';
+export const TOKEN = "session/login/token";
+export const USER = "session/login/user";
 
 export const loadFromSessionStorage = key => {
   try {

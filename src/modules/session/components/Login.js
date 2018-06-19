@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { login } from "../../../state/session/actions.js";
+import { login } from "../../../modules/session/actions.js";
 
 const Panel = styled.div`
   display: flex;
@@ -43,17 +44,23 @@ const Error = styled.p`
 `;
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formData: {
-        password: "",
-        email: ""
-      },
-      loading: false,
-      error: null
-    };
-  }
+  state = {
+    formData: {
+      password: "",
+      email: ""
+    },
+    loading: false,
+    error: null
+  };
+
+  static propTypes = {
+    token: PropTypes.string,
+    login: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    token: null
+  };
 
   onChange = event => {
     event.preventDefault();
@@ -70,7 +77,11 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.token) return <Redirect to="/" />;
+    const { loading, error, formData: { email, password } } = this.state;
+    const { token } = this.props;
+
+    if (token) return <Redirect to="/" />;
+
     return (
       <Panel>
         <form ref={el => (this.form = el)} onSubmit={this.onSubmit}>
@@ -81,7 +92,7 @@ class Login extends React.Component {
             type="text"
             name="email"
             id="email"
-            value={this.state.formData["email"]}
+            value={email}
           />
           <br />
           <label htmlFor="password">Password</label>
@@ -91,14 +102,14 @@ class Login extends React.Component {
             type="password"
             name="password"
             id="password"
-            value={this.state.formData["password"]}
+            value={password}
           />
           <br />
-          {this.state.error && <Error>{this.state.error.data.error}</Error>}
+          {error && <Error>{error.data.error}</Error>}
           <Submit
             type="submit"
-            disable={this.state.loading}
-            value={this.state.loading ? "Loading ..." : "Logga in"}
+            disable={loading}
+            value={loading ? "Loading ..." : "Logga in"}
           />
         </form>
       </Panel>

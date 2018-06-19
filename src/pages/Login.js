@@ -2,12 +2,10 @@ import React from "react";
 
 import { connect } from "react-redux";
 
-import LoginComponent from "../modules/auth/components/Login";
+import LoginComponent from "../modules/session/components/Login";
 
 const Login = props => (
-  <main>
-    <LoginComponent token={props.token} loginSuccess={props.loginSuccess} />
-  </main>
+  <LoginComponent token={props.token} loginSuccess={props.loginSuccess} />
 );
 
 const mapStateToProps = state => ({

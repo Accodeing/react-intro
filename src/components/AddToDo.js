@@ -4,11 +4,7 @@ class AddToDo extends Component {
   create = event => {
     event.preventDefault();
 
-    this.props.add({
-      title: this.el.value,
-      done: false,
-      id: Math.random(12)
-    });
+    this.props.add(this.el.value);
 
     this.form.reset();
   };
